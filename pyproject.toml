@@ -12,6 +12,13 @@ homepage = "https://audiotextpro.com"
 python = "^3.9"
 requests = "^2.26.0"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+ruff = "^0.1.0"
+mypy = "^1.5.0"
+bandit = "^1.7.0"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -30,6 +37,44 @@ combine_as_imports = true
 known_first_party = "audiotextpro"
 known_third_party = "requests"
 
-[tool.pytest]
-addopts = "--cov=audiotextpro --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=100"
-testpaths = "tests"
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+src = ["audiotextpro", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["audiotextpro"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=audiotextpro --cov-report=term-missing --cov-report=xml --cov-fail-under=80"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["audiotextpro"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]
