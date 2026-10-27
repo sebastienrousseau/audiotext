@@ -26,7 +26,7 @@ import audiotextpro
 
 # Ensuring the script is being run as the main module.
 # This prevents the code inside this condition from running when this module is imported elsewhere.
-def main():
+def main() -> None:
     """Upload FILENAME, transcribe it and save the transcript (see the module docstring)."""
     load_dotenv()
 
@@ -39,6 +39,8 @@ def main():
     # Uploading the audio file specified by FILENAME to AssemblyAI, and retrieving
     # the URL where the uploaded audio file can be accessed.
     upload_url = audiotextpro.upload_file(API_TOKEN, FILENAME)
+    if upload_url is None:
+        raise RuntimeError(f"Uploading {FILENAME} to AssemblyAI timed out.")
 
     # Requesting a transcription of the uploaded audio file from AssemblyAI.
     # The function will poll AssemblyAI periodically until the transcription is ready.

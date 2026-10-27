@@ -11,8 +11,10 @@ Functions:
 
 """
 
+from collections.abc import Iterator
 
-def read_file(file_to_read, chunk_size=5242880):
+
+def read_file(file_to_read: str, chunk_size: int = 5242880) -> Iterator[bytes]:
     """
     Generator function to read a file in chunks.
 

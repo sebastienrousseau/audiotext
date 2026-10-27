@@ -19,7 +19,7 @@ from setuptools import find_packages, setup
 with open("README.md", encoding="utf-8") as fh:
     long_description = fh.read()
 
-setup_requirements = []
+setup_requirements: list[str] = []
 test_requirements = ["pytest>=7.4.2"]
 
 setup(

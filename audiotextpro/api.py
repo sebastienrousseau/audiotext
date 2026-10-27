@@ -4,13 +4,14 @@ It includes functionality to upload audio files and retrieve transcriptions.
 """
 
 import time
+from typing import Any
 
 import requests
 
 from .file import read_file
 
 
-def upload_file(api_token, file_path, timeout=30):
+def upload_file(api_token: str, file_path: str, timeout: float = 30) -> str | None:
     """Upload a file to the AssemblyAI API.
 
     Args:
@@ -19,7 +20,7 @@ def upload_file(api_token, file_path, timeout=30):
         timeout (int, optional): Timeout for the request in seconds.
 
     Returns:
-        str: The upload URL.
+        str | None: The upload URL, or None when the request timed out.
     """
 
     headers = {"authorization": api_token}
@@ -31,13 +32,16 @@ def upload_file(api_token, file_path, timeout=30):
             data=read_file(file_path),
             timeout=timeout,
         )
-        return response.json()["upload_url"]
+        upload_url: str = response.json()["upload_url"]
+        return upload_url
     except requests.Timeout:
         print("Request timed out")
         return None
 
 
-def create_transcript(api_token, audio_url, timeout=30):
+def create_transcript(
+    api_token: str, audio_url: str, timeout: float = 30
+) -> dict[str, Any]:
     """Create a transcript using AssemblyAI API.
 
     Args:
@@ -73,7 +77,9 @@ def create_transcript(api_token, audio_url, timeout=30):
     polling_endpoint = f"https://api.assemblyai.com/v2/transcript/{transcript_id}"
 
     while True:
-        result = requests.get(polling_endpoint, headers=headers, timeout=timeout).json()
+        result: dict[str, Any] = requests.get(
+            polling_endpoint, headers=headers, timeout=timeout
+        ).json()
         if result["status"] == "completed":
             end_time = time.time()
             break
