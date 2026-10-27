@@ -23,9 +23,11 @@ from dotenv import load_dotenv
 
 import audiotextpro
 
+
 # Ensuring the script is being run as the main module.
 # This prevents the code inside this condition from running when this module is imported elsewhere.
-if __name__ == "__main__":
+def main():
+    """Upload FILENAME, transcribe it and save the transcript (see the module docstring)."""
     load_dotenv()
 
     API_TOKEN = os.getenv("API_TOKEN")
@@ -44,4 +46,8 @@ if __name__ == "__main__":
 
     # Processing the resulting transcript: printing the transcription to the console
     # and saving the full transcript data as a JSON file.
-    text = audiotextpro.process_transcript(transcript)
+    audiotextpro.process_transcript(transcript)
+
+
+if __name__ == "__main__":
+    main()
