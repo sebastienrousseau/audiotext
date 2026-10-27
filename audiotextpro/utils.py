@@ -10,7 +10,11 @@ Functions:
     * another_function - [Description of another function].
 
 """
-def read_file(file_to_read, chunk_size=5242880):
+
+from collections.abc import Iterator
+
+
+def read_file(file_to_read: str, chunk_size: int = 5242880) -> Iterator[bytes]:
     """
     Generator function to read a file in chunks.
 
@@ -27,12 +31,10 @@ def read_file(file_to_read, chunk_size=5242880):
     # closed after its suite finishes. 'rb' means the file is opened for
     # reading in binary mode. This is crucial for non-text files like audio
     # files.
-    with open(file_to_read, 'rb') as _file:
-
+    with open(file_to_read, "rb") as _file:
         # The 'while' loop continues to read the file in chunks until
         # there is nothing left to read.
         while True:
-
             # Read 'chunk_size' bytes of the file. If the file size
             # is not a multiple of 'chunk_size', the final chunk will
             # be smaller than 'chunk_size' bytes.

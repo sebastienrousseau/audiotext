@@ -4,11 +4,14 @@ It includes functionality to upload audio files and retrieve transcriptions.
 """
 
 import time
+from typing import Any
+
 import requests
 
 from .file import read_file
 
-def upload_file(api_token, file_path, timeout=30):
+
+def upload_file(api_token: str, file_path: str, timeout: float = 30) -> str | None:
     """Upload a file to the AssemblyAI API.
 
     Args:
@@ -17,24 +20,28 @@ def upload_file(api_token, file_path, timeout=30):
         timeout (int, optional): Timeout for the request in seconds.
 
     Returns:
-        str: The upload URL.
+        str | None: The upload URL, or None when the request timed out.
     """
 
-    headers = {'authorization': api_token}
+    headers = {"authorization": api_token}
 
     try:
         response = requests.post(
-            'https://api.assemblyai.com/v2/upload',
+            "https://api.assemblyai.com/v2/upload",
             headers=headers,
             data=read_file(file_path),
-            timeout=timeout
+            timeout=timeout,
         )
-        return response.json()["upload_url"]
+        upload_url: str = response.json()["upload_url"]
+        return upload_url
     except requests.Timeout:
         print("Request timed out")
         return None
 
-def create_transcript(api_token, audio_url, timeout=30):
+
+def create_transcript(
+    api_token: str, audio_url: str, timeout: float = 30
+) -> dict[str, Any]:
     """Create a transcript using AssemblyAI API.
 
     Args:
@@ -46,13 +53,9 @@ def create_transcript(api_token, audio_url, timeout=30):
         dict: Completed transcript object.
     """
 
-    headers = {
-        "authorization": api_token,
-        "content-type": "application/json"
-    }
+    headers = {"authorization": api_token, "content-type": "application/json"}
 
     data = {"audio_url": audio_url}
-
 
     start_time = time.time()
 
@@ -63,23 +66,24 @@ def create_transcript(api_token, audio_url, timeout=30):
         "https://api.assemblyai.com/v2/transcript",
         json=data,
         headers=headers,
-        timeout=timeout
+        timeout=timeout,
     )
     request_end_time = time.time()
 
     print(f"Request time: {request_end_time - start_time:.2f} secs")
 
-    transcript_id = response.json()['id']
+    transcript_id = response.json()["id"]
 
     polling_endpoint = f"https://api.assemblyai.com/v2/transcript/{transcript_id}"
 
     while True:
-        result = requests.get(
-            polling_endpoint, headers=headers, timeout=timeout).json()
-        if result['status'] == 'completed':
+        result: dict[str, Any] = requests.get(
+            polling_endpoint, headers=headers, timeout=timeout
+        ).json()
+        if result["status"] == "completed":
             end_time = time.time()
             break
-        if result['status'] == 'error':
+        if result["status"] == "error":
             raise ValueError(f"Transcript failed: {result['error']}")
         time.sleep(5)
 

@@ -17,15 +17,17 @@ and not hard-coded into scripts.
 # Importing the assemblyai package, which provides functions for interacting
 # with the AssemblyAI API and processing transcription results.
 import os
-import audiotextpro
 
 # Importing the dotenv package, which allows us to load environment variables
 from dotenv import load_dotenv
 
+import audiotextpro
+
+
 # Ensuring the script is being run as the main module.
 # This prevents the code inside this condition from running when this module is imported elsewhere.
-if __name__ == '__main__':
-
+def main() -> None:
+    """Upload FILENAME, transcribe it and save the transcript (see the module docstring)."""
     load_dotenv()
 
     API_TOKEN = os.getenv("API_TOKEN")
@@ -37,6 +39,8 @@ if __name__ == '__main__':
     # Uploading the audio file specified by FILENAME to AssemblyAI, and retrieving
     # the URL where the uploaded audio file can be accessed.
     upload_url = audiotextpro.upload_file(API_TOKEN, FILENAME)
+    if upload_url is None:
+        raise RuntimeError(f"Uploading {FILENAME} to AssemblyAI timed out.")
 
     # Requesting a transcription of the uploaded audio file from AssemblyAI.
     # The function will poll AssemblyAI periodically until the transcription is ready.
@@ -44,6 +48,8 @@ if __name__ == '__main__':
 
     # Processing the resulting transcript: printing the transcription to the console
     # and saving the full transcript data as a JSON file.
-    text = audiotextpro.process_transcript(transcript)
+    audiotextpro.process_transcript(transcript)
 
 
+if __name__ == "__main__":
+    main()

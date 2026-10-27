@@ -14,13 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
-
-with open("README.md", "r", encoding="utf-8") as fh:
+with open("README.md", encoding="utf-8") as fh:
     long_description = fh.read()
 
-setup_requirements = []
+setup_requirements: list[str] = []
 test_requirements = ["pytest>=7.4.2"]
 
 setup(
@@ -48,6 +47,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         "requests>=2.26.0",
+        "python-dotenv>=1.2.2",
     ],
     setup_requires=setup_requirements,
     tests_require=test_requirements,

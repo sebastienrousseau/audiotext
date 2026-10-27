@@ -6,7 +6,10 @@ polling for the transcription results.
 
 """
 
-def read_file(file_to_read, chunk_size=5242880):
+from collections.abc import Iterator
+
+
+def read_file(file_to_read: str, chunk_size: int = 5242880) -> Iterator[bytes]:
     """Generator function to read a file in chunks.
 
     Args:
@@ -18,7 +21,7 @@ def read_file(file_to_read, chunk_size=5242880):
         bytes: Chunks of file contents.
     """
 
-    with open(file_to_read, 'rb') as _file:
+    with open(file_to_read, "rb") as _file:
         while True:
             data = _file.read(chunk_size)
             if not data:

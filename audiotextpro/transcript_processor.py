@@ -1,6 +1,8 @@
 import json
+from typing import Any
 
-def process_transcript(transcript):
+
+def process_transcript(transcript: dict[str, Any]) -> str:
     """Print text to console and save JSON to file.
 
     Args:
@@ -10,10 +12,10 @@ def process_transcript(transcript):
         str: The extracted text from the transcript.
     """
 
-    transcript_text = transcript['text']
+    transcript_text: str = transcript["text"]
     print(transcript_text)
 
-    with open('transcript.json', 'w', encoding='utf-8') as f:
+    with open("transcript.json", "w", encoding="utf-8") as f:
         json.dump(transcript, f, indent=4)
 
     return transcript_text
