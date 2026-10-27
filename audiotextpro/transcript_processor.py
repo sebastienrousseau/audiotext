@@ -1,5 +1,6 @@
 import json
 
+
 def process_transcript(transcript):
     """Print text to console and save JSON to file.
 

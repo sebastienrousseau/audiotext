@@ -4,9 +4,11 @@ It includes functionality to upload audio files and retrieve transcriptions.
 """
 
 import time
+
 import requests
 
 from .file import read_file
+
 
 def upload_file(api_token, file_path, timeout=30):
     """Upload a file to the AssemblyAI API.

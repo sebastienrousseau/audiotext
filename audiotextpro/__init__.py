@@ -13,14 +13,16 @@ Example usage:
 # Importing the `upload_file` and `create_transcript` functions from the `api` module.
 # These functions facilitate direct interaction with the AssemblyAI API,
 # such as uploading audio files and requesting transcripts.
-from .api import upload_file, create_transcript
+from .api import create_transcript, upload_file
+
+# Importing the `process_transcript` function from the `transcript_processor` module.
+# This function processes the obtained transcript data from the AssemblyAI API,
+# printing the transcription to the console and saving it as a JSON file.
+from .transcript_processor import process_transcript
 
 # Importing the `read_file` function from the `utils` module.
 # This function is a utility that allows reading a file in chunks and can
 # be used in various contexts where large files need to be read efficiently.
 from .utils import read_file
 
-# Importing the `process_transcript` function from the `transcript_processor` module.
-# This function processes the obtained transcript data from the AssemblyAI API,
-# printing the transcription to the console and saving it as a JSON file.
-from .transcript_processor import process_transcript
+__all__ = ["create_transcript", "process_transcript", "read_file", "upload_file"]

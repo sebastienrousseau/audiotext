@@ -17,10 +17,11 @@ and not hard-coded into scripts.
 # Importing the assemblyai package, which provides functions for interacting
 # with the AssemblyAI API and processing transcription results.
 import os
-import audiotextpro
 
 # Importing the dotenv package, which allows us to load environment variables
 from dotenv import load_dotenv
+
+import audiotextpro
 
 # Ensuring the script is being run as the main module.
 # This prevents the code inside this condition from running when this module is imported elsewhere.
