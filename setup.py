@@ -48,6 +48,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         "requests>=2.26.0",
+        "python-dotenv>=1.2.2",
     ],
     setup_requires=setup_requirements,
     tests_require=test_requirements,

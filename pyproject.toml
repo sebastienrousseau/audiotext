@@ -9,8 +9,10 @@ repository = "https://github.com/sebastienrousseau/audiotextpro"
 homepage = "https://audiotextpro.com"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 requests = "^2.26.0"
+# __main__ imports dotenv; < 1.2.2 has GHSA advisories, and 1.2.2+ needs Python 3.10.
+python-dotenv = ">=1.2.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
