@@ -20,7 +20,7 @@ with open("README.md", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup_requirements: list[str] = []
-test_requirements = ["pytest>=7.4.2"]
+test_requirements = ["pytest>=9.0.3"]  # < 9.0.3: PYSEC-2026-1845
 
 setup(
     name="audiotextpro",
